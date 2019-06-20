@@ -1,0 +1,42 @@
+<script>
+  $("#test").hide();
+  console.log("aaa");
+  var totalPrice = sessionStorage.getItem("totalPrice");
+
+  if (totalPrice == null) {
+    $("#test").show();
+    $("#history").hide();
+  }
+
+</script>
+
+<div class="container">
+  <span id="test">No booking history</span>
+  <div class="table-responsive">
+    <table id="history" class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Cinema</th>
+          <th scope="col">Movie Name</th>
+          <th scope="col">Date</th>
+          <th scope="col">Time</th>
+          <th scope="col">Seats</th>
+          <th scope="col">Total Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each object}}
+          <tr>
+            <th class="count"></th>
+            <td>{{ cinema }}</td>
+            <td>{{ movie }}</td>
+            <td>{{ date}}</td>
+            <td>{{ time }}</td>
+            <td>{{ seats }}</td>
+            <td>{{ totalPrice }}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>

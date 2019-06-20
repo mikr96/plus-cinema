@@ -1,0 +1,236 @@
+<div class="my-3">
+  <h2 style="color: white;">
+    <b style="padding:1%;">Welcome Admin!</b>
+  </h2>
+  <div class="tab-pane fade show active" id="movie" role="tabpanel" aria-labelledby="movie-tab">
+    <br />
+    <div class="col">
+      <button class="btn btn-primary" id="newmovie" data-toggle="modal" data-target="#addnewmovie">
+        Add new movie
+      </button>
+    </div>
+    <br />
+    <div class="col">
+      <div class="table-responsive">
+        <table id="movielist" class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Movie Name</th>
+              <th scope="col">Genre</th>
+              <th scope="col">Language</th>
+              <th scope="col">Subtitle</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each movie}}
+              <tr>
+                <th class="count"></th>
+                <td>{{ movie_name }}</td>
+                <td>{{ genre }}</td>
+                <td>{{ language }}</td>
+                <td>{{ subtitle }}</td>
+                <td><button data-movieid={{ id }} id="btnDelete" type="button" class="btn btn-danger">Delete</button>
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="tab-pane fade" id="theatre" role="tabpanel" aria-labelledby="theatre-tab">
+    <br />
+    <div class="col">
+      <button class="btn btn-primary" id="newtheatre" data-toggle="modal" data-target="#addnewtheatre">
+        Add new theatre
+      </button>
+    </div>
+    <br />
+  </div>
+</div>
+<div>
+  <!-- Modal for Add Movie -->
+  <div class="modal fade" id="addnewmovie" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add New Movie</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="addmovieform" method="POST">
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Title: </label>
+              <input type="text" class="form-control" name="movie_name" id="movie_name" />
+            </div>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Genre</label>
+              <select multiple="multiple" class="form-control" name="genre" id="genre">
+                <option value="Action">Action</option>
+                <option value="Anime">Anime</option>
+                <option value="Comedy">Comedy</option>
+                <option value="Drama">Drama</option>
+                <option value="Fantasy">Fantasy</option>
+                <option value="Horror">Horror</option>
+                <option value="Romance">Romance</option>
+                <option value="Thriller">Thriller</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Date Release: </label>
+              <input type="date" class="form-control" name="release_date" id="release_date" />
+            </div>
+            {{!-- <div class="form-group">
+                    <label for="recipient-name" class="col-form-label" >Price: RM</label>
+                    <input type="text" class="form-control" name="price" id="price" />
+                  </div> --}}
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Language</label>
+              <select class="form-control" name="language" id="language">
+                <option value="English">English</option>
+                <option value="Malay">Malay</option>
+                <option value="Mandarin">Mandarin</option>
+                <option value="Tamil">Tamil</option>
+                <option value="Japanese">Japanese</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label" for="subtitle">Subtitle</label>
+              <select multiple="multiple" class="form-control" name="subtitle" id="subtitle">
+                <option value="English">English</option>
+                <option value="Malay">Malay</option>
+                <option value="Mandarin">Mandarin</option>
+                <option value="Tamil">Tamil</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Movie Duration</label>
+              <select class="form-control" name="movie_duration" id="movie_duration">
+                <option value="80">1 hour 20 minutes</option>
+                <option value="90">1 hour 30 minutes</option>
+                <option value="105">1 hour 45 minutes</option>
+                <option value="120">2 hours</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Image</label>
+              <input type="url" class="form-control" name="img_source" id="img_source">
+            </div>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Synopsis: </label>
+              <textarea type="text" class="form-control" name="synopsis" id="synopsis">Synopsis.....</textarea>
+            </div>
+            <div class="form-group">
+              <input class="btn btn-primary" type="submit" name="button" value="Submit" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="page-footer font-small blue">
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">
+    © 2019 Copyright:
+    <a href="https://mdbootstrap.com/education/bootstrap/">
+      WTC-Web.com</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+<!-- Footer -->
+
+<script>
+  //Registration movie form
+  $("#addmovieform").submit(function (event) {
+    event.preventDefault(); //prevent redirect/page refresh
+
+    console.log("submitted");
+    const url = "http://localhost/WTCAPI";
+
+    //serialized form data
+    var genre = $('#addmovieform').find("select[name='genre']").val().join(); //$("#addmovieform").find("select[name='genre']").children("option:checked").val();
+    //var genrevalue = Array.from(genre).map(el => el.value);
+    var subtitle = $("#addmovieform").find("select[name='subtitle']").val().join();
+
+    var formData = JSON.stringify({
+      "option": {
+        "movie_name": $("#addmovieform").find("input[name='movie_name']").val(),
+        "genre": genre,
+        "language": $("#addmovieform").find("select[name='language']").children("option:selected").val(),
+        "subtitle": subtitle,
+        "release_date": $("#addmovieform").find("input[name='release_date']").val(),
+        "movie_duration": $("#addmovieform").find("select[name='movie_duration']").children("option:selected").val(),
+        "synopsis": $("#addmovieform").find("textarea[name='synopsis']").val(),
+        "img_source": $("#addmovieform").find("input[name='img_source']").val(),
+        "admin_id": null,
+      }
+    });
+
+    console.log($("#addmovieform").find("input[name='img_source']").val());
+
+    request = $.ajax({
+      type: "post",
+      contentType: 'application/json',
+      data: formData,
+      url: url + '/insertMovie',
+      dataType: "json",
+      success: function (data) {
+        console.log("success", data);
+
+        swal({
+          type: 'success',
+          title: 'Congratulation',
+          text: 'Successfully insert new movie.',
+          buttons: "I Understand!",
+        }).then(function () {
+          console.log('triggered redirect here');
+          window.location.reload();
+        });
+      },
+      error: function (data) {
+        console.log("fail", data)
+
+        swal({
+          type: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong! Cannot create new movie.',
+          buttons: "I Understand!",
+        }).then(function (isConfirm) {
+          if (isConfirm) {
+            window.location.reload();
+          }
+        });
+        console.log(formData);
+      }
+    });
+  });
+
+  $("#movielist").on('click', '#btnDelete', function () {
+
+    $(this).closest('tr').remove();
+    $.ajax({
+      type: 'DELETE',
+      data: JSON.stringify({ "option": { "id": $(this).data("movieid") } }),
+      contentType: 'application/json',
+      url: url + '/deleteMovie',
+      dataType: "json",
+      success: function (data) {
+        console.log("success");
+      },
+      error: function (data) {
+        alert("An error occurred while processing JSON file.");
+      }
+    }).then(function () {
+      console.log('triggered redirect here');
+      window.location.reload();
+    });
+  });
+</script>

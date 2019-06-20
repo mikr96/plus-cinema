@@ -1,0 +1,217 @@
+<div class="container">
+  <div id="moviePoster">
+  </div>
+  <div class="form-group">
+    <select id="movie" onChange="movieSelection()" class="custom-select">
+      <option value="" selected="">Select Movie</option>
+      {{#each movie}}
+        <option value="{{movie_name}}">{{movie_name}}</option>
+      {{/each}}
+    </select>
+  </div>
+  <div class="form-group">
+    <select id="cinema" onChange="cinemaSelection()" class="custom-select">
+      <option selected="">Select Cinema</option>
+      <option value="GSC Paradigm">GSC Paradigm</option>
+      <option value="MBO U Mall">MBO U Mall</option>
+      <option value="LFS Skudai Parade">LFS Skudai Parade</option>
+      <option value="mmCineplexes City Square">mmCineplexes City Square</option>
+      <option value="TGV Bukit Indah">TGV Bukit Indah</option>
+      <option value="MBO KSL City">MBO KSL City</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <select id="date" onChange="dateSelection()" class="custom-select">
+      <option selected="">Select Date</option>
+      <option value="20 Mei 2019">20 Mei 2019</option>
+      <option value="21 Mei 2019">21 Mei 2019</option>
+      <option value="22 Mei 2019">22 Mei 2019</option>
+      <option value="23 Mei 2019">23 Mei 2019</option>
+      <option value="24 Mei 2019">24 Mei 2019</option>
+      <option value="25 Mei 2019">25 Mei 2019</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <select id="time" onChange="timeSelection()" class="custom-select">
+      <option selected="">Select Time</option>
+      <option value="10:00 am">10:00 am</option>
+      <option value="12:00 am">12:00 am</option>
+      <option value="14:00 pm">14:00 pm</option>
+      <option value="16:00 pm">16:00 pm</option>
+      <option value="18:00 pm">18:00 pm</option>
+      <option value="20:00 pm">20:00 pm</option>
+    </select>
+  </div>
+  <a class="btn btn-primary btn-block" href="#seat">Buy Tickets !</a>
+</div>
+{{!-- <!-- Footer -->
+<footer class="page-footer font-small blue">
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">
+    © 2019 Copyright:
+    <a href="https://mdbootstrap.com/education/bootstrap/">
+      WTC-Web.com</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+<!-- Footer --> --}}
+
+<script type="text/javascript">
+  var movie, cinema, date, time, movie_id;
+  var movieDetails = JSON.parse(sessionStorage.getItem("movieDetails"));
+  var i = -1;
+  var arr = [];
+  // Get the size of an object
+  var size = Object.keys(movieDetails).length;
+  for (i = 0; i < size; i++) {
+    arr.push(movieDetails[i][0])
+  }
+
+  var children = document.getElementById("moviePoster").children
+    .length;
+  while (children != 0) {
+    var list = document.getElementById("moviePoster");
+    list.removeChild(list.childNodes[0]);
+    children--;
+  }
+  movie = sessionStorage.getItem("movie_name");
+  $('#movie').val(movie);
+
+  movieDetails = arr;
+  displayPoster();
+
+  function movieSelection() {
+    movie = $("#movie").children("option:selected").val();
+    $("#moviePoster").empty();
+
+    displayPoster();
+    sessionStorage.setItem("movie_name", movie);
+    sessionStorage.setItem("movieId", movie_id);
+  }
+
+  function cinemaSelection() {
+    cinema = document.getElementById("cinema").value;
+    sessionStorage.setItem("cinema", cinema);
+  }
+
+  function dateSelection() {
+    date = document.getElementById("date").value;
+    if (date == "20 Mei 2019") {
+      date = "2019-05-20";
+    }
+    else if (date == "21 Mei 2019") {
+      date = "2019-05-21";
+    }
+    else if (date == "22 Mei 2019") {
+      date = "2019-05-22";
+    }
+    else if (date == "23 Mei 2019") {
+      date = "2019-05-23";
+    }
+    else if (date == "24 Mei 2019") {
+      date = "2019-05-24";
+    }
+    else if (date == "25 Mei 2019") {
+      date = "2019-05-25";
+    }
+    sessionStorage.setItem("date", date);
+  }
+
+  function timeSelection() {
+    time = document.getElementById("time").value;
+    if (time == "10:00 am") {
+      time = "10:00:00";
+    }
+    else if (time == "12:00 pm") {
+      time = "12:00:00";
+    }
+    else if (time == "14:00 pm") {
+      time = "14:00:00";
+    }
+    else if (time == "16:00 pm") {
+      time = "16:00:00";
+    }
+    else if (time == "18:00 pm") {
+      time = "18:00:00";
+    }
+    else if (time == "20:00 pm") {
+      time = "20:00:00";
+    }
+    sessionStorage.setItem("time", time);
+  }
+
+  function displayPoster() {
+    if (movie == "Avenger : End Game") {
+      var i = document.createElement("img");
+      i.src = "img/avengers.jpg";
+      i.setAttribute("class", "responsive")
+      document.getElementById("moviePoster").appendChild(i);
+      for (i = 0; i < size; i++) {
+        var temp = movieDetails[i].split(",");
+        if (temp[1] == movie) {
+          movie_id = temp[0];
+        }
+      }
+    }
+    else if (movie == "Detective Pikachu") {
+      var i = document.createElement("img");
+      i.src = "img/pikachu.jpg";
+      i.setAttribute("class", "responsive")
+      document.getElementById("moviePoster").appendChild(i);
+      for (i = 0; i < size; i++) {
+        var temp = movieDetails[i].split(",");
+        if (temp[1] == movie) {
+          movie_id = temp[0];
+        }
+      }
+    }
+    else if (movie == "Spider Man : Far From Home") {
+      var i = document.createElement("img");
+      i.src = "img/spider-man.jpg";
+      i.setAttribute("class", "responsive")
+      document.getElementById("moviePoster").appendChild(i);
+      for (i = 0; i < size; i++) {
+        var temp = movieDetails[i].split(",");
+        if (temp[1] == movie) {
+          movie_id = temp[0];
+        }
+      }
+    }
+    else if (movie == "John Wick") {
+      var i = document.createElement("img");
+      i.src = "img/john-wick.jpg";
+      i.setAttribute("class", "responsive")
+      document.getElementById("moviePoster").appendChild(i);
+      for (i = 0; i < size; i++) {
+        var temp = movieDetails[i].split(",");
+        if (temp[1] == movie) {
+          movie_id = temp[0];
+        }
+      }
+    }
+    else if (movie == "Hobbs and Shaw") {
+      var i = document.createElement("img");
+      i.src = "img/hobbs.jpg";
+      i.setAttribute("class", "responsive")
+      document.getElementById("moviePoster").appendChild(i);
+      for (i = 0; i < size; i++) {
+        var temp = movieDetails[i].split(",");
+        if (temp[1] == movie) {
+          movie_id = temp[0];
+        }
+      }
+    }
+    else if (movie == "X-Men : Dark Pheonix") {
+      var i = document.createElement("img");
+      i.src = "img/xmen.jpg";
+      i.setAttribute("class", "responsive")
+      document.getElementById("moviePoster").appendChild(i);
+      for (i = 0; i < size; i++) {
+        var temp = movieDetails[i].split(",");
+        if (temp[1] == movie) {
+          movie_id = temp[0];
+        }
+      }
+    }
+  }
+</script>

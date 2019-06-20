@@ -1,0 +1,24 @@
+section.singleColumn{
+    display: block; 
+    margin-right: 0; 
+    padding:0 20px; 
+}
+article div{
+    color: #28a745;
+}
+
+article.boxListItem {
+    clear: both;
+    margin-bottom: 25px;
+    margin-top: 0;
+    padding: 0;
+}
+
+article.boxListItem img{
+    width: 90%;
+}
+
+article:hover{
+    opacity:0.5;
+    transition: 1s ease;
+}

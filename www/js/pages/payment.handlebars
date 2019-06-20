@@ -1,0 +1,173 @@
+<br />
+<div class="card">
+  <h5 class="card-header">Receipt</h5>
+  <div class="card-body">
+    <div id="movieSelected"></div>
+    <hr>
+    <h5 class="card-title">Your Tickets</h5>
+    <div class="row">
+      <div id="ticket" class='col-6' style="float: left;"></div>
+
+      <div id="price" class='col-6' style="text-align: right;"></div>
+    </div>
+    <hr>
+    <div id="total"></div>
+    <p class="card-text">Payment: <b>Credit Card</b></p>
+    <hr>
+    <p class="blockquote-footer">We advice you to pick up your tickets 30 minutes before showtime and Enjoy the movie !
+    </p>
+    <a href="#home" class="btn btn-primary" style="float: right;">Back to Homepage</a>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+  var movieDetails = JSON.parse(sessionStorage.getItem("movieDetails"));
+  var cinema = sessionStorage.getItem("cinema");
+  var date = sessionStorage.getItem("date");
+  var time = sessionStorage.getItem("time");
+  var seats = sessionStorage.getItem("seats");
+  var movie = sessionStorage.getItem("movie_name");
+  var price = sessionStorage.getItem("price");
+  var totalprice = sessionStorage.getItem("totalPrice");
+  var movieId = sessionStorage.getItem("movieId") * 1;
+  var adminId = sessionStorage.getItem("admin_id") * 1;
+  var showtime = date.concat(" " + time);
+
+  $("#total").append("<p class='card-text'>Price: <b>RM " + totalprice + "</b></p>");
+  price = price.split(",");
+  var size = price.length;
+  console.log("Movie Id: " + movieId);
+  console.log(movie);
+  for (i = 0; i < size; i++) {
+    $("#ticket").append("<p class= 'card-text' > Ticket</p > ");
+    $("#price").append("<p class= 'card-text' > RM " + price[i] + "</p >");
+  }
+
+  var formData = JSON.stringify({
+    "option": {
+      "seat_no": seats,
+      "playing_datetime": showtime,
+      "created_by": adminId,
+      "movie_id": movieId,
+    }
+  });
+
+  console.log(formData)
+
+  $.ajax({
+    type: "POST",
+    beforeSend: function (request) {
+      request.setRequestHeader(
+        "authorization",
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJteWNvbnRhY3RzLm5ldCIsInJvbGUiOiJhZG1pbiIsInVzZXJuYW1lIjoiaGFoYSJ9.QbSiJvCRhyTAyUztAX-c2qYC4GZsKRJcvGND_l8hlXA"
+      );
+    },
+    contentType: "application/json",
+    data: formData,
+    url: "http://localhost/WTCAPI/insertMovieSeat",
+    dataType: "json",
+    success: function (data) {
+      console.log("Successfull", data)
+    },
+    error: function () {
+      alert("An error occurred while processing JSON file.");
+    }
+  });
+
+
+  //Get seatSelectedId
+  var seatId = $('.seatSelected').map(function () {
+    return $(this).attr('id');
+  }).get();
+
+
+  var cinema = document.getElementById("cinema").value;
+  var date = document.getElementById("date").value;
+  var time = document.getElementById("time").value;
+
+  if (movie == "Avenger : End Game") {
+    var i = document.createElement("img");
+    i.src = "img/avengers.jpg";
+    i.setAttribute("class", "movieSelected");
+    var j = document.createElement("p");
+    var text = document.createTextNode("Avengers: Endgame");
+    j.append(text);
+    j.setAttribute("class", "t-center");
+    document.getElementById("movieSelected").appendChild(i);
+    document.getElementById("movieSelected").appendChild(j);
+  }
+  else if (movie == "Detective Pikachu") {
+    var i = document.createElement("img");
+    i.src = "img/pikachu.jpg";
+    i.setAttribute("class", "movieSelected")
+    var j = document.createElement("p");
+    var text = document.createTextNode("Detective Pikachu");
+    j.append(text);
+    j.setAttribute("class", "t-center");
+    document.getElementById("movieSelected").appendChild(i);
+    document.getElementById("movieSelected").appendChild(j);
+  }
+  else if (movie == "Spider Man : Far From Home") {
+    var i = document.createElement("img");
+    i.src = "img/spider-man.jpg";
+    i.setAttribute("class", "movieSelected")
+    var j = document.createElement("p");
+    var text = document.createTextNode("Spider-Man: Far From Home");
+    j.append(text);
+    j.setAttribute("class", "t-center");
+    document.getElementById("movieSelected").appendChild(i);
+    document.getElementById("movieSelected").appendChild(j);
+  }
+  else if (movie == "John Wick") {
+    var i = document.createElement("img");
+    i.src = "img/john-wick.jpg";
+    i.setAttribute("class", "movieSelected")
+    var j = document.createElement("p");
+    var text = document.createTextNode("John Wick 3");
+    j.append(text);
+    j.setAttribute("class", "t-center");
+    document.getElementById("movieSelected").appendChild(i);
+    document.getElementById("movieSelected").appendChild(j);
+  }
+  else if (movie == "Hobbs and Shaw") {
+    var i = document.createElement("img");
+    i.src = "img/hobbs.jpg";
+    i.setAttribute("class", "movieSelected")
+    var j = document.createElement("p");
+    var text = document.createTextNode("Hobbs & Shaw");
+    j.append(text);
+    j.setAttribute("class", "t-center");
+    document.getElementById("movieSelected").appendChild(i);
+    document.getElementById("movieSelected").appendChild(j);
+  }
+  else if (movie == "X-Men : Dark Pheonix") {
+    var i = document.createElement("img");
+    i.src = "img/xmen.jpg";
+    i.setAttribute("class", "movieSelected")
+    var j = document.createElement("p");
+    var text = document.createTextNode("Xmen: Dark Pheonix");
+    j.append(text);
+    j.setAttribute("class", "t-center");
+    document.getElementById("movieSelected").appendChild(i);
+    document.getElementById("movieSelected").appendChild(j);
+  }
+
+  var k = document.createElement("p");
+  var text1 = document.createTextNode(cinema);
+  k.append(text1);
+  k.setAttribute("class", "t-center");
+  document.getElementById("movieSelected").appendChild(k);
+
+  var l = document.createElement("p");
+  var text2 = document.createTextNode(date);
+  l.append(text2);
+  l.setAttribute("class", "t-center");
+  document.getElementById("movieSelected").appendChild(l);
+
+  var m = document.createElement("p");
+  var text3 = document.createTextNode(time);
+  m.append(text3);
+  m.setAttribute("class", "t-center");
+  document.getElementById("movieSelected").appendChild(m);
+</script>
